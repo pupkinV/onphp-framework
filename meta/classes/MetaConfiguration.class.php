@@ -527,7 +527,7 @@
 					$object = new $name;
 					$proto = $object->proto();
 					$form = $proto->makeForm();
-					
+					/* @var $property MetaClassProperty */
 					foreach ($class->getProperties() as $name => $property) {
 						Assert::isTrue(
 							$property->toLightProperty($class)
@@ -1226,6 +1226,7 @@
 						$property->getType()->setDefault(
 							(string) $xmlProperty['default']
 						);
+						$property->setDefault( $property->getType()->getDefault());
 					}
 					
 					$class->addProperty($property);

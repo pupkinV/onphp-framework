@@ -14,7 +14,14 @@
 	**/
 	final class FormUtils extends StaticFactory
 	{
-		/* void */ public static function object2form(
+		/**
+		 *
+		 * @param Prototyped $object
+		 * @param Form $form
+		 * @param boolean $ignoreNull
+		 * @return Form
+		 */
+		public static function object2form(
 			$object, Form $form, $ignoreNull = true
 		)
 		{
@@ -53,15 +60,24 @@
 					}
 				}
 			}
+
+			return $form;
 		}
-		
-		/* void */ public static function form2object(
+
+		/**
+		 * @param Form $form
+		 * @param object $object
+		 * @param boolean $ignoreNull
+		 * @return object
+		 */
+		public static function form2object(
 			Form $form, $object, $ignoreNull = true
 		)
 		{
 			Assert::isTrue(is_object($object));
 			
 			if ($object instanceof Prototyped) {
+				/* @var $proto AbstractProtoClass */
 				$proto = $object->proto();
 				$list = $proto->getExpandedPropertyList();
 				
@@ -79,7 +95,7 @@
 					if ($prm instanceof ListedPrimitive)
 						$value = $prm->getChoiceValue();
 					else
-						$value = $prm->getValue();
+						$value = $prm->getActualValue();
 					
 					if (
 						$class->hasMethod($setter)
@@ -107,6 +123,8 @@
 					}
 				}
 			}
+
+			return $object;
 		}
 		
 		public static function checkPrototyped(Prototyped $object)
@@ -118,4 +136,3 @@
 			return $form->getErrors();
 		}
 	}
-?>

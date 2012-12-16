@@ -28,6 +28,7 @@
 		private $relation	= null;
 		
 		private $strategy	= null;
+		private $default;
 		
 		public function __construct(
 			$name,
@@ -92,7 +93,7 @@
 			
 			return $this;
 		}
-		
+
 		/**
 		 * @return MetaClassProperty
 		**/
@@ -249,6 +250,18 @@
 				return $this->getClass()->getFetchStrategyId();
 			
 			return null;
+		}
+
+		public function getDefault()
+		{
+			return $this->default;
+		}
+
+		public function setDefault($default)
+		{
+			$this->default = $default;
+
+			return $this;
 		}
 		
 		public function toMethods(
@@ -423,7 +436,8 @@
 						$this->getType()->isGeneric(),
 						$inner,
 						$this->getRelationId(),
-						$this->getFetchStrategyId()
+						$this->getFetchStrategyId(),
+						$this->getDefault(),
 					)
 				);
 		}
@@ -512,10 +526,4 @@ EOT;
 			
 			return $column;
 		}
-		
-		private function toVarName($name)
-		{
-			return strtolower($name[0]).substr($name, 1);
-		}
 	}
-?>

@@ -199,7 +199,7 @@
 		public function makeForm($prefix = null)
 		{
 			$form = Form::create();
-			
+			/* @var $property LightMetaProperty */
 			foreach ($this->getPropertyList() as $property) {
 				$property->fillForm($form, $prefix);
 			}
@@ -299,7 +299,7 @@
 			} else {
 				$property = $this->getPropertyByName($path);
 				$setter = $property->getSetter();
-				$value = $prm->getValue();
+				$value = $prm->getActualValue();
 				
 				if (
 					!$ignoreNull || ($value !== null)

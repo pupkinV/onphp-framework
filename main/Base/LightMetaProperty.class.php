@@ -66,6 +66,7 @@
 		
 		/// @see FetchStrategy
 		private $strategyId	= null;
+		private $default	= null;
 		
 		private $getter		= null;
 		private $setter		= null;
@@ -89,7 +90,7 @@
 		public static function fill(
 			LightMetaProperty $property,
 			$name, $columnName, $type, $className, $size,
-			$required, $generic, $inner, $relationId, $strategyId
+			$required, $generic, $inner, $relationId, $strategyId, $default
 		)
 		{
 			$property->name = $name;
@@ -132,6 +133,7 @@
 			
 			$property->relationId = $relationId;
 			$property->strategyId = $strategyId;
+			$property->default = $default;
 			
 			$property->identifier =
 				$generic && $required && (
@@ -309,7 +311,10 @@
 			
 			if ($this->required)
 				$prm->required();
-			
+
+			if ($this->default !== null)
+				$prm->setDefault($this->default);
+
 			return $prm;
 		}
 		
@@ -526,6 +531,15 @@
 						? $this->strategyId
 						: 'null'
 				)
+				.', '
+				.(
+					is_array($this->default)
+						? 'array(' .join(', ', $this->default) .')'
+						: ($this->default !== null
+							? "'{$this->default}'"
+							: 'null'
+						)
+				)
 				.')';
 		}
 		
@@ -541,4 +555,3 @@
 			);
 		}
 	}
-?>
