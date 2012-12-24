@@ -75,7 +75,7 @@
 			
 			return $proto->completeObject(
 				$proto->makeOnlyObject(
-					$this->getClassName(), $array, $prefix
+					$this->getClassName(), $array, $prefix, $dao
 				),
 				$array,
 				$prefix
@@ -95,4 +95,3 @@
 			return true;
 		}
 	}
-?>
